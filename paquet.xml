@@ -40,6 +40,9 @@
 	-->
 
 	<pipeline nom="recuperer_fond" inclure="interface_traduction_objets_pipelines.php" />
+	<pipeline nom="header_prive" inclure="interface_traduction_objets_pipelines.php" />
+	<pipeline nom="formulaire_charge" inclure="interface_traduction_objets_pipelines.php" />
+	<pipeline nom="pre_insertion" inclure="interface_traduction_objets_pipelines.php" />
 
 	<utilise nom="trad_rub" compatibilite="[2.0.0;]" />
 
