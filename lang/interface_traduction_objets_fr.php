@@ -9,4 +9,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// I
 	'interface_traduction_objets_titre' => 'Interface de traduction pour objets',
+
+	// O
+	'options' => 'Modifier les options de langues',
 );
