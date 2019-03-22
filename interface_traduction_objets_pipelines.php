@@ -46,15 +46,15 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			$langues_traduites = [];
 			if ($id_trad > 0) {
 				$trad_new = FALSE;
-				$langues_traduites[0] = $lang_objet;
+				$langues_traduites[$lang_objet] = $lang_objet;
 
 				$traductions = sql_allfetsel(
-					'lang',
+					'lang,' . $id_table_objet,
 					$table_objet,
 					'id_trad=' . $id_trad . ' AND ' . $id_table_objet . '!=' . $id_objet);
 
 				foreach ($traductions AS $traduction) {
-					$langues_traduites[] = $traduction['lang'];
+					$langues_traduites[$traduction['lang']] = $traduction[$id_table_objet];
 
 				}
 			}

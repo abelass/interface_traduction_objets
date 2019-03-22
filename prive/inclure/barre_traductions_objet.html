@@ -4,17 +4,17 @@
 		<ul>
 		<BOUCLE_ld(DATA){source tableau, #ENV{langues_dispos}}>
 		[(#ENV{langues_traduites}|table_valeur{#VALEUR}|=={#ENV{id_trad}}|oui)#SET{ref_#VALEUR,oui}]
-			[(#VALEUR|in_array{#ENV{langues_traduites}}|?{
+			[(#VALEUR||array_key_exists{#ENV{langues_traduites}}|?{
 				[(#VALEUR|=={#ENV{lang_objet}}|?{
 					<li class="box_onglet"><strong class="on">[(#ENV{ref_#VALEUR}|oui)<div class="ref">*<span><:tra:rubrique_reference:></span></div>][(#VALEUR|traduire_nom_langue)]</strong></li>
 					,
-					<li class="traduit box_onglet">[(#ENV{ref_#VALEUR}|oui)<div class="ref">*<span><:tra:rubrique_reference:></span></div>]<a href="[(#URL_ECRIRE{#ENV{objet}}|parametre_url{#ENV{id_table_objet},#ENV{langues_traduites}|table_valeur{#VALEUR}})]">[(#VALEUR|traduire_nom_langue)]</a></li>
+					<li class="traduit box_onglet">[(#GET{ref_#VALEUR}|oui)<div class="ref">*<span><:spip:trad_reference:></span></div>]<a href="[(#URL_ECRIRE{#ENV{objet}}|parametre_url{#ENV{id_table_objet},#ENV{langues_traduites}|table_valeur{#VALEUR}})]">[(#VALEUR|traduire_nom_langue)]</a></li>
 					})]
 					,
 				#SET{non_traduits,oui}
 				[(#SET{donnees_trad,#VALEUR|rubrique_destination_traduction{#ENV{id_trad}}})]
 				[(#VALEUR|=={#ENV{lang_objet}}|?{
-						<li class="non_traduit box_onglet"><strong class="on">[(#VALEUR|traduire_nom_langue)][(#ENV{ref_#VALEUR}|oui)<span><:tra:rubrique_reference:></span>]</strong></li>
+						<li class="non_traduit box_onglet"><strong class="on">[(#VALEUR|traduire_nom_langue)][(#ENV{ref_#VALEUR}|oui)<span><:spip:trad_reference:></span>]</strong></li>
 						,
 
 						#SET{id_parent_trad,#GET{donnees_trad}|table_valeur{id_parent_trad}}
