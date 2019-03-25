@@ -65,6 +65,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 
 			$contexte['objet'] = $objet;
 			$contexte['id_objet'] = $id_objet;
+			$contexte['id_table_objet'] = $id_table_objet;
 			$contexte['langues_dispos'] = $langues_dispos;
 			$contexte['lang_objet'] = $lang_objet;
 			$contexte['id_trad'] = $id_trad;
