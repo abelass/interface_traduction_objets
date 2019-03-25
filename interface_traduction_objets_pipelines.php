@@ -107,6 +107,15 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			$flux['data']['texte'] = str_replace('</h1>', '</h1>' . $barre_langue, $flux['data']['texte']);
 		}
 	}
+
+	// Liste compacte des articles
+	if ($flux['args']['fond'] == 'prive/objets/liste/articles' and
+		_request('exec') != 'article' and
+		!lire_config('taa/liste_compacte_desactive')) {
+
+		$flux['texte'] = recuperer_fond('prive/objets/liste/articles_compacte', $flux['args']['contexte']);
+	}
+
 	return $flux;
 }
 
