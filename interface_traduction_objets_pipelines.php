@@ -64,7 +64,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			}
 
 			$contexte['objet'] = $objet;
-			$contexte['id_table_objet'] = $id_table_objet;
+			$contexte['id_objet'] = $id_objet;
 			$contexte['langues_dispos'] = $langues_dispos;
 			$contexte['lang_objet'] = $lang_objet;
 			$contexte['id_trad'] = $id_trad;
@@ -90,6 +90,7 @@ function interface_traduction_objets_header_prive($flux) {
 /*Ajoute la langue de traduction dans le chargement du formulaire edition_rubrique*/
 function interface_traduction_objets_formulaire_charger($flux) {
 	$form = $flux['args']['form'];
+
 	if ($form == 'editer_rubrique' AND _request('new') == 'oui') {
 
 		if (!$flux['data']['lang_dest'] = _request('lang_dest') AND $id_rubrique = _request('id_parent')) {
@@ -99,6 +100,8 @@ function interface_traduction_objets_formulaire_charger($flux) {
 			$flux['data']['_hidden'] .= '<input type="hidden" name="lang_dest" value="' . $flux['data']['lang_dest'] . '"/>';
 		}
 	}
+
+
 	return $flux;
 }
 
