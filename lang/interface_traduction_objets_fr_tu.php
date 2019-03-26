@@ -9,33 +9,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
-	// A
-	'affichage_liste_compacte_desactive' => 'Désactiver l’affichage compacte des listes des articles',
-
-	// C
-	'cfg_limiter_secteur' => 'Ne pas afficher la barre de langue dans le secteur :',
-	'cfg_utiliser_langues' => 'Utiliser les langues suivantes :',
-	'changer_langue' => 'Changer la langue de l’article',
-
 	// F
 	'fermer' => 'Fermer',
 
-	// L
-	'lier_traduction' => 'Attacher une traduction',
-
-	// M
-	'modifier_options_langue' => 'options',
-
-	// N
-	'necesite_afficher_objet' => 'Pour pouvoir utiliser cette fonction tu dois installer le plugin',
-
 	// O
 	'options' => 'Modifier les options de langues',
-
-	// T
-	'titre_plugin' => 'Traduction d’articles autrement',
-	'traductions' => 'Trad',
-
-	// V
-	'voir_traductions' => 'Voir le détail des traductions'
 );

@@ -44,7 +44,4 @@
 	<pipeline nom="formulaire_charger" inclure="interface_traduction_objets_pipelines.php" />
 	<pipeline nom="pre_insertion" inclure="interface_traduction_objets_pipelines.php" />
 
-	<utilise nom="trad_rub" compatibilite="[2.0.0;]" />
-
-
 </paquet>

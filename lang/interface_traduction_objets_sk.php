@@ -9,33 +9,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
-	// A
-	'affichage_liste_compacte_desactive' => 'Deaktivovať kompaktné zobrazenie  zoznamu článkov',
-
-	// C
-	'cfg_limiter_secteur' => 'Panel s jazykmi nezobrazovať v sektore:',
-	'cfg_utiliser_langues' => 'Používať tieto jazyky:',
-	'changer_langue' => 'Zmeniť jazyk článku',
-
 	// F
 	'fermer' => 'Zatvoriť',
 
-	// L
-	'lier_traduction' => 'Pripojiť preklad',
-
-	// M
-	'modifier_options_langue' => 'možnosti',
-
-	// N
-	'necesite_afficher_objet' => 'Na využívanie tejto funkcie si musíte nainštalovať zásuvný modul',
-
 	// O
 	'options' => 'Upraviť možnosti jazykov',
-
-	// T
-	'titre_plugin' => 'Iný preklad článku',
-	'traductions' => 'Prekl',
-
-	// V
-	'voir_traductions' => 'Zobraziť podrobnosti o prekladoch'
 );

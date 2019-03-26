@@ -9,17 +9,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 $GLOBALS[$GLOBALS['idx_lang']] = array(
 
-	// C
-	'changer_langue' => 'Camudar la llingua del artículu',
-
 	// F
 	'fermer' => 'Zarrar',
 
-	// L
-	'lier_traduction' => 'Axuntar una traducción',
-
-	// M
-	'modifier_options_langue' => 'opciones',
 
 	// N
 	'necesite_afficher_objet' => 'Pa poder utilizar esta función tienes d’instalar el complementu',
@@ -27,10 +19,4 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	// O
 	'options' => 'Camudar les opciones de llingua',
 
-	// T
-	'titre_plugin' => 'Traducción d’artículos d’otra miente',
-	'traductions' => 'Traducciones', # MODIF
-
-	// V
-	'voir_traductions' => 'Ver el detalle de les traducciones'
 );
