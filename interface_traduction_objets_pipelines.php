@@ -149,11 +149,10 @@ function interface_traduction_objets_formulaire_charger($flux) {
 
 /*Prise en compte de la langue de traduction dans le traitement du formulaire edition_article*/
 function interface_traduction_objets_pre_insertion($flux) {
-	if ($lang = _request('lang_dest') AND $id_trad = _request('lier_trad')) {
+	if ($lang = _request('lang_dest')) {
 		$flux['data']['lang'] = $lang;
 		$flux['data']['langue_choisie'] = 'oui';
-		$flux['data']['id_trad'] = $id_trad;
-		spip_log($flux, 'teste');
+		$flux['data']['id_trad'] = _request('lier_trad');
 	}
 	return $flux;
 }

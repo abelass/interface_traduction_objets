@@ -13,9 +13,6 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'fermer' => 'Zarrar',
 
 
-	// N
-	'necesite_afficher_objet' => 'Pa poder utilizar esta función tienes d’instalar el complementu',
-
 	// O
 	'options' => 'Camudar les opciones de llingua',
 
