@@ -1,0 +1,9 @@
+[(#REM) Squelettes différent si langues par section]
+
+[(#PLUGIN{secteur_langue}|oui)
+	[(#ENV{id_rubrique}|oui)
+		#SET{type,_sections}
+	]
+]
+
+<INCLURE{fond=prive/objets/liste/inc-objets_compacte#GET{type},ajax,env}/>

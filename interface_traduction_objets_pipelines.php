@@ -31,6 +31,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$id_objet = $contexte[$id_table_objet]
 	) {
 
+		// Insertion de la barre traduction.
 		if ($fond == 'prive/squelettes/contenu/' . $objet) {
 
 			$langues_dispos = explode(',', $GLOBALS['meta']['langues_multilingue']);
@@ -108,12 +109,26 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		}
 	}
 
-	// Liste compacte des articles
-	if ($flux['args']['fond'] == 'prive/objets/liste/articles' and
-		_request('exec') != 'article' and
-		!lire_config('taa/liste_compacte_desactive')) {
+	// Liste compacte des objets traduits
+	if (strpos($fond, 'prive/objets/liste/') !== false AND
+		$segments = explode('/', $fond) AND
+		$objets = $segments[3] AND
+		$objet = objet_type($objets) AND
+		$table_objet_sql = table_objet_sql($objet) AND
+		$tables_spip = lister_tables_spip() AND
+		isset($tables_spip[$table_objet_sql])
+	) {
 
-		$flux['texte'] = recuperer_fond('prive/objets/liste/articles_compacte', $flux['args']['contexte']);
+		//$contexte['donnees_objet'] = sql_allfetsel('*', $table_objet_sql);
+		$contexte['objets'] = $objets;
+		$contexte['objet'] = $objet;
+		$contexte['table_objet_sql'] = $table_objet_sql;
+
+
+
+		$flux['texte'] = recuperer_fond('prive/objets/liste/objets_compacte', $contexte);
+
+
 	}
 
 	return $flux;
