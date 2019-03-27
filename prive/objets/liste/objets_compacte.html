@@ -6,4 +6,9 @@
 	]
 ]
 
-<INCLURE{fond=prive/objets/liste/inc-objets_compacte#GET{type},ajax,env}/>
+[(#CHEMIN{prive/objets/liste/compacte/#ENV{objets}|concat{.html}}|?{
+	[(#INCLURE{fond=prive/objets/liste/compacte/#ENV{objets},type=#GET{type},env})],
+	[(#INCLURE{fond=prive/objets/liste/inc-objets_compacte#GET{type},ajax,env})]
+})]
+
+
