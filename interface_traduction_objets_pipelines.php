@@ -116,7 +116,12 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$objet = objet_type($objets) AND
 		$table_objet_sql = table_objet_sql($objet) AND
 		$tables_spip = lister_tables_spip() AND
-		isset($tables_spip[$table_objet_sql])
+		isset($tables_spip[$table_objet_sql]) AND
+		$trouver_table = charger_fonction('trouver_table', 'base') AND
+		$desc = $trouver_table($objet_exec['table_objet_sql']) AND
+		isset($desc['field']['lang']) AND
+		isset($desc['field']['id_trad']) AND
+		isset($desc['field']['langue_choisie'])
 	) {
 
 		//$contexte['donnees_objet'] = sql_allfetsel('*', $table_objet_sql);

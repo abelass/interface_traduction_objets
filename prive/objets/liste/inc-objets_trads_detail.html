@@ -1,19 +1,24 @@
+#SET{picto,#ENV{objet}|objet_icone{16}}
+[(#SET{req,[select [(#ENV{objet}|id_table_objet)] as id from (#ENV{table_objet_sql}) [where id_trad=(#ENV{id_trad}) AND lang NOT LIKE ['(#ENV{lang})]'] order by [(#ENV{objet}|id_table_objet)] desc]})]
 
-<BOUCLE_art(ARTICLES){id_trad}{id_mot?}{id_auteur?}{statut?}{id_trad!=0}{statut IN prepa,publie,prop}{id_article!=#ENV{id_article}}>
-<tr class="trads t_[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
-	[(#PLUGIN{rang}|oui)
-		[(#ENV{id_rubrique}|et{#VAL{article}|appliquer_filtre{rang_objet_dans_config}}|oui)<td class="picto"> </td>]
-	]
-	<td class='statut'>[(#ID_ARTICLE|puce_changement_statut{#STATUT,#ID_RUBRIQUE,article})]</td>
-	<td class='rang'>#RANG</td>
-	<td class='titre'>[(#LOGO_ARTICLE||image_reduire{20,26})]<a href="[(#ID_ARTICLE|generer_url_entite{article})]">#TITRE</a>
+#GET{req}
+
+<BOUCLE_objets(DATA){source sql,#GET{req}}>
+	#SET{lang,#INFO_LANG{#ENV{objet},#VALEUR{id}}}[(#GET{lang}|changer_typo)]
+	#SET{titre,#INFO_TITRE{#ENV{objet},#VALEUR{id}}}
+<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
+	<td class='picto'>#GET{picto}</td>
+	<td class='titre principale'><a
+		href="[(#VALEUR{id}|generer_url_entite{#ENV{objet}})]"
+		[hreflang="(#ENV{lang}|=={#GET{lang}}|non|?{#GET{lang}})"]
+		title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#RANG). ][(#GET{titre}|sinon{<:info_sans_titre:>})]</a>
 	</td>
-	<td class='auteur'><BOUCLE_auteurs(AUTEURS){id_article}{', '}><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">#NOM</a></BOUCLE_auteurs></td>
-	<td class='date'>[(#DATE|affdate_jourcourt)]</td>
-	<td class='id'>[(#AUTORISER{modifier,article,#ID_ARTICLE}|?{
-		<a href="[(#ENV{mode}|=={edition_seule}|?{[(#ID_ARTICLE|generer_url_entite{article})],[(#URL_ECRIRE{article_edit,id_article=#ID_ARTICLE})]})]">#ID_ARTICLE</a>,
-		#ID_ARTICLE
-		})]</td>
-	<td>-</td>
-	</tr>
-</BOUCLE_art>
+	<td class='id'>[(#AUTORISER{modifier,#ENV{objet},#VALEUR{id}}|?{
+		[<a href="[(#VALEUR{id}|generer_url_ecrire_entite_edit{#ENV{objet}})]">(#VALEUR{id})</a>],
+		[(#VALEUR{id})]
+	})]</td>
+	<td>
+		-
+	</td>
+</tr>
+</BOUCLE_objets>

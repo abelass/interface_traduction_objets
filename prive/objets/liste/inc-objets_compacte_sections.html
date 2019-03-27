@@ -11,23 +11,13 @@
 			<th class='picto' scope='col'></th>
 			<th class='titre principale' scope='col'><:info_titre:></th>
 			<th class='id' scope='col'><:info_numero_abbreviation:></th>
+			<th class='trad'><:interface_traduction_objets:traductions:></th>
 		</tr>
 	</thead>
 	<tbody>
 	<BOUCLE_objets(DATA){source sql,#GET{req}}{pagination #ENV{nb,10}}>
-		#SET{lang,#INFO_LANG{#ENV{objet},#VALEUR{id}}}[(#GET{lang}|changer_typo)]
-		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
-			<td class='picto'>#GET{picto}</td>
-			<td class='titre principale'><a
-				href="[(#VALEUR{id}|generer_url_entite{#ENV{objet}})]"
-				[hreflang="(#ENV{lang}|=={#GET{lang}}|non|?{#GET{lang}})"]
-				title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#RANG). ][(#INFO_TITRE{#ENV{objet},#VALEUR{id}}|sinon{<:info_sans_titre:>})]</a>
-			</td>
-			<td class='id'>[(#AUTORISER{modifier,#ENV{objet},#VALEUR{id}}|?{
-				[<a href="[(#VALEUR{id}|generer_url_ecrire_entite_edit{#ENV{objet}})]">(#VALEUR{id})</a>],
-				[(#VALEUR{id})]
-			})]</td>
-		</tr>
+		#SET{class, #COMPTEUR_BOUCLE|alterner{row_odd,row_even}}
+		<INCLURE{fond=prive/objets/liste/inc-objets_row,id=#VALEUR{id},class=#GET{class},rang,trads=oui,env} />
 	</BOUCLE_objets>
 	[(#REM|changer_typo)]
 	</tbody>
@@ -37,3 +27,4 @@
 </B_objets>[
 <div class="liste-objets [(#ENV{objet}|objet_info{table_objet})] caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
 ]<//B_objets>
+

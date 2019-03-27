@@ -1,42 +1,44 @@
-<tr[(#ENV{rang_actif}|oui) data-id_objet="#ID_ARTICLE"] class="#ENV{class}">
-<BOUCLE_art(ARTICLES){id_article}{statut?}>#SET{id_trad,#ID_TRAD}#SET{id_article,#ID_ARTICLE}
-	[(#ENV{rang_actif}|oui)
-		[(#ENV{id_rubrique}|et{#VAL{article}|appliquer_filtre{rang_objet_dans_config}}|oui)<td class="picto">[(#CHEMIN_IMAGE{draggable-16.png}|balise_img)]</td>]
-	]
-	<td class='statut'>[(#ID_ARTICLE|puce_changement_statut{#STATUT,#ID_RUBRIQUE,article})]</td>
-	[(#ENV{rang_actif}|oui)<td class='rang'>[(#RANG).]</td>]
-	<td class='titre principale'>[(#LOGO_ARTICLE||image_reduire{20,26})]<a href="[(#ID_ARTICLE|generer_url_entite{article})]">#TITRE</a></td>
-	<td class='auteur'><BOUCLE_auteurs(AUTEURS){id_article}{', '}><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">#NOM</a></BOUCLE_auteurs></td>
-	<td class='date'>[(#DATE|affdate_jourcourt)]</td>
-	<td class='id'>[(#AUTORISER{modifier,article,#ID_ARTICLE}|?{
-		<a href="[(#ENV{mode}|=={edition_seule}|?{[(#ID_ARTICLE|generer_url_entite{article})],[(#URL_ECRIRE{article_edit,id_article=#ID_ARTICLE})]})]">#ID_ARTICLE</a>,
-		#ID_ARTICLE
-		})]</td>
-	[(#ENV{trads}|oui)<td class="trad">]
-
-	<BOUCLE_art_trads(ARTICLES){traduction}{id_mot?}{id_auteur?}{statut IN prepa,publie,prop}{id_article!=#ID_ARTICLE}>
-	[(#ENV{trads}|oui)
-		[(#ENV{voir}|!={#ID_TRAD}|?{
-			<span>[(#ID_ARTICLE|puce_changement_statut{#STATUT,#ID_RUBRIQUE,article})]&nbsp;[(#AUTORISER{modifier,article,#ID_ARTICLE}|?{
-				<a href="[(#ID_ARTICLE|generer_url_entite{article})]" title="#TITRE / <:info_numero_abbreviation:>#ID_ARTICLE">#LANG</a>,
-				#LANG
-				})]
-			</span>,
-			&nbsp;
+[(#SET{traductions,[(#INFO_ID_TRAD{#ENV{objet},#ID}|lister_traductions{#ENV{objet}})]})]
+	#SET{lang,#INFO_LANG{#ENV{objet},#ID}}[(#GET{lang}|changer_typo)]
+	#SET{titre,#INFO_TITRE{#ENV{objet},#ID}}
+<tr class="#GET{class}">
+	<td class='picto'>#GET{picto}</td>
+	<td class='titre principale'><a
+		href="[(#VALEUR{id}|generer_url_entite{#ENV{objet}})]"
+		[hreflang="(#ENV{lang}|=={#GET{lang}}|non|?{#GET{lang}})"]
+		title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#ENV{rang}). ][(#GET{titre}|sinon{<:info_sans_titre:>})]</a>
+	</td>
+	<td class='id'>[(#AUTORISER{modifier,#ENV{objet},#ID}|?{
+		[<a href="[(#VALEUR{id}|generer_url_ecrire_entite_edit{#ENV{objet}})]">(#ID)</a>],
+		[(#ID)]
+	})]</td>
+	<td>
+	<BOUCLE_trads(DATA) {source tableau, #GET{traductions}}{lang!=#ENV{lang}}>
+	#SET{titre,#INFO_TITRE{#ENV{objet},#ID}}
+	#SET{lang,#INFO_LANG{#ENV{objet},#ID}}
+	#SET{id_trad,#INFO_ID_TRAD{#ENV{objet},#ID}}
+	[(#ENV{voir}|!={[(#GET{id_trad})]}|?{
+		<span>[(#ID|puce_changement_statut{#STATUT,#ENV{id_rubrique},#ENV{objet}})]&nbsp;[(#AUTORISER{modifier,#ENV{objet},#ID}|?{
+			<a
+				href="[(#ID|generer_url_entite{#ENV{objet}})]"
+				title="[(#GET{titre})] / <:info_numero_abbreviation|attribut_html:> [(#VALEUR{id})]">[(#GET{lang})]</a>,
+			#GET{lang}
 			})]
-		]
-	</BOUCLE_art_trads>
-	[(#ENV{trads}|oui)
-			<div>
-			[(#ENV{voir}|=={#ID_TRAD}|?{<a class="ajax" href="[(#SELF|parametre_url{voir,''})]" title="<:taa:fermer:>"><img src="[(#CHEMIN{prive/images/deplierbas.gif})]" alt="replier"/></a>,<a class="ajax" href="[(#SELF|parametre_url{voir,#ID_TRAD})]" title="<:taa:voir_traductions:>"><img src="[(#CHEMIN{prive/images/deplierhaut.gif})]" alt="deplier"/></a>})]
-			</div>
-	</td>]
-	</B_art_trads>
-</BOUCLE_art>
+		</span>,
+		&nbsp;
+		})]
+	</BOUCLE_trads>
+		<div>
+		[(#ENV{voir}|=={#GET{id_trad}}|?{
+			<a class="ajax" href="[(#SELF|parametre_url{voir,''})]" title="<:interface_traduction_objets:fermer:>"><img src="[(#CHEMIN{prive/images/deplierbas.gif})]" alt="replier"/></a>,
+			<a class="ajax" href="[(#SELF|parametre_url{voir,#GET{id_trad}})]" title="<:interface_traduction_objets:voir_traductions:>"><img src="[(#CHEMIN{prive/images/deplierhaut.gif})]" alt="deplier"/></a>})]
+		</div>
+		</B_trads>
+		[(#ENV{trads}|non) - ]
+	<//B_trads>
+	</td>
 </tr>
 
 [(#ENV{voir}|=={#GET{id_trad}}|oui)
-	<INCLURE{fond=prive/objets/liste/inc-objets_trads_detail}{id_trad=#GET{id_trad}}{id_article=#GET{id_article}}{env}/>
-	]
-
-
+	<INCLURE{fond=prive/objets/liste/inc-objets_trads_detail,id_trad=#GET{id_trad},env}/>
+]

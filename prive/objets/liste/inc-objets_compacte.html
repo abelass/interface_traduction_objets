@@ -26,6 +26,18 @@
 				[<a href="[(#VALEUR{id}|generer_url_ecrire_entite_edit{#ENV{objet}})]">(#VALEUR{id})</a>],
 				[(#VALEUR{id})]
 			})]</td>
+			<td>
+					[(#ENV{trads}|oui)
+		[(#ENV{voir}|!={#ID_TRAD}|?{
+			<span>[(#ID_ARTICLE|puce_changement_statut{#STATUT,#ID_RUBRIQUE,article})]&nbsp;[(#AUTORISER{modifier,article,#ID_ARTICLE}|?{
+				<a href="[(#ID_ARTICLE|generer_url_entite{article})]" title="#TITRE / <:info_numero_abbreviation:> #VALEUR{id}">#LANG</a>,
+				#LANG
+				})]
+			</span>,
+			&nbsp;
+			})]
+		]
+	</td>
 		</tr>
 	</BOUCLE_objets>
 	[(#REM|changer_typo)]
