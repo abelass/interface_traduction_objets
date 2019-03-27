@@ -14,4 +14,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// O
 	'options' => 'Upraviť možnosti jazykov',
+
+	// T
+	'traductions' => 'Prekl',
+
+	// V
+	'voir_traductions' => 'Zobraziť podrobnosti o prekladoch'
 );

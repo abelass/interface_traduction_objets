@@ -16,4 +16,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// M
 	'modifier_options_langue' => 'گزينه‌ها',
+
+	// T
+	'traductions' => 'ترجمه‌ها',
+
+	// V
+	'voir_traductions' => 'بنگريد به جزئيات ترجمه‌ها'
 );

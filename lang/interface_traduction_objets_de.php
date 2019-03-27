@@ -14,4 +14,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// O
 	'options' => 'Sprachoptionen verändern',
+
+	// T
+	'traductions' => 'Übersetzungen',
+
+	// V
+	'voir_traductions' => 'Detaillierte Ansicht der Übersetzungen'
 );

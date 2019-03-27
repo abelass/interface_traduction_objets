@@ -16,6 +16,12 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'necesite_afficher_objet' => 'Per poder utiiltzar aquesta funció heu d’instal·lar el connector',
 
 	// O
-	'options' => 'Opcions', # MODIF
+	'options' => 'Opcions',
+
+	// T
+	'traductions' => 'Traduccions', # MODIF
+
+	// V
+	'voir_traductions' => 'Veure el detall de les traduccions'
 
 );
