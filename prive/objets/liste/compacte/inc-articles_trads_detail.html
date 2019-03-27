@@ -5,7 +5,7 @@
 		[(#ENV{id_rubrique}|et{#VAL{article}|appliquer_filtre{rang_objet_dans_config}}|oui)<td class="picto"> </td>]
 	]
 	<td class='statut'>[(#ID_ARTICLE|puce_changement_statut{#STATUT,#ID_RUBRIQUE,article})]</td>
-	<td class='rang'>#RANG</td>
+	[(#ENV{rang_actif}|oui)<td class='rang'>[(#RANG).]</td>]
 	<td class='titre'>[(#LOGO_ARTICLE||image_reduire{20,26})]<a href="[(#ID_ARTICLE|generer_url_entite{article})]">#TITRE</a>
 	</td>
 	<td class='auteur'><BOUCLE_auteurs(AUTEURS){id_article}{', '}><a href="[(#ID_AUTEUR|generer_url_entite{auteur})]">#NOM</a></BOUCLE_auteurs></td>
