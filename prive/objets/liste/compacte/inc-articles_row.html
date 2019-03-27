@@ -28,7 +28,7 @@
 	</BOUCLE_art_trads>
 	[(#ENV{trads}|oui)
 			<div>
-			[(#ENV{voir}|=={#ID_TRAD}|?{<a class="ajax" href="[(#SELF|parametre_url{voir,''})]" title="<:taa:fermer:>"><img src="[(#CHEMIN{prive/images/deplierbas.gif})]" alt="replier"/></a>,<a class="ajax" href="[(#SELF|parametre_url{voir,#ID_TRAD})]" title="<:taa:voir_traductions:>"><img src="[(#CHEMIN{prive/images/deplierhaut.gif})]" alt="deplier"/></a>})]
+			[(#ENV{voir}|=={#ID_TRAD}|?{<a class="ajax" href="[(#SELF|parametre_url{voir,''})]" title="<:interface_traduction_objets:fermer:>"><img src="[(#CHEMIN{prive/images/deplierbas.gif})]" alt="replier"/></a>,<a class="ajax" href="[(#SELF|parametre_url{voir,#ID_TRAD})]" title="<:interface_traduction_objets:voir_traductions:>"><img src="[(#CHEMIN{prive/images/deplierhaut.gif})]" alt="deplier"/></a>})]
 			</div>
 	</td>]
 	</B_art_trads>
