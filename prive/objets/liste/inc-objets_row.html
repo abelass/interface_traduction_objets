@@ -2,14 +2,17 @@
 	#SET{lang,#INFO_LANG{#ENV{objet},#ID}}[(#GET{lang}|changer_typo)]
 	#SET{titre,#INFO_TITRE{#ENV{objet},#ID}}
 <tr class="#GET{class}">
-	<td class='picto'>#GET{picto}</td>
+	[(#ENV{champs}|table_valeur{statut}|oui)
+	<td class='statut'>[(#ID|puce_changement_statut{#INFO_STATUT{#ENV{objet},#ID},#ENV{id_rubrique},#ENV{objet}})]</td>
+	]
+	<td class='picto'>#ENV**{picto}</td>
 	<td class='titre principale'><a
-		href="[(#VALEUR{id}|generer_url_entite{#ENV{objet}})]"
+		href="[(#ID|generer_url_entite{#ENV{objet}})]"
 		[hreflang="(#ENV{lang}|=={#GET{lang}}|non|?{#GET{lang}})"]
 		title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#ENV{rang}). ][(#GET{titre}|sinon{<:info_sans_titre:>})]</a>
 	</td>
 	<td class='id'>[(#AUTORISER{modifier,#ENV{objet},#ID}|?{
-		[<a href="[(#VALEUR{id}|generer_url_ecrire_entite_edit{#ENV{objet}})]">(#ID)</a>],
+		[<a href="[(#ID|generer_url_ecrire_entite_edit{#ENV{objet}})]">(#ID)</a>],
 		[(#ID)]
 	})]</td>
 	<td>

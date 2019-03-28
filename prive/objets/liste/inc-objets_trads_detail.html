@@ -1,11 +1,13 @@
-#SET{picto,#ENV{objet}|objet_icone{16}}
-[(#SET{req,[select [(#ENV{objet}|id_table_objet)] as id from (#ENV{table_objet_sql}) [where id_trad=(#ENV{id_trad}) AND lang NOT LIKE ['(#ENV{lang})]'] order by [(#ENV{objet}|id_table_objet)] desc]})]
 
+[(#SET{req,[select [(#ENV{objet}|id_table_objet)] as id from (#ENV{table_objet_sql}) [where id_trad=(#ENV{id_trad}) AND lang NOT LIKE ['(#ENV{lang})]'] order by [(#ENV{objet}|id_table_objet)] desc]})]
 <BOUCLE_objets(DATA){source sql,#GET{req}}>
 	#SET{lang,#INFO_LANG{#ENV{objet},#VALEUR{id}}}[(#GET{lang}|changer_typo)]
 	#SET{titre,#INFO_TITRE{#ENV{objet},#VALEUR{id}}}
 <tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
-	<td class='picto'>#GET{picto}</td>
+	[(#ENV{champs}|table_valeur{statut}|oui)
+	<td class='statut'>[(#ID|puce_changement_statut{#INFO_STATUT{#ENV{objet},#ID},#ENV{id_rubrique},#ENV{objet}})]</td>
+	]
+	<td class='picto'>#ENV**{picto}</td>
 	<td class='titre principale'><a
 		href="[(#VALEUR{id}|generer_url_entite{#ENV{objet}})]"
 		[hreflang="(#ENV{lang}|=={#GET{lang}}|non|?{#GET{lang}})"]
