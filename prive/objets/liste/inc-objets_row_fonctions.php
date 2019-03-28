@@ -4,7 +4,7 @@
  *
  * @plugin     Interface de traduction pour objets
  * @copyright  2019
- * @author     RAiner
+ * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Interface_traduction_objets\Fonctions
  */
@@ -14,4 +14,3 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 
 include_spip('prive/objets/liste/objets-trad_fonctions');
-

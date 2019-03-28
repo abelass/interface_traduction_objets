@@ -16,7 +16,7 @@
 	<!-- Rend la traduction de vos objets encore plus simple -->
 
 	<!-- cette balise peut être présente plusieurs fois s'il y a plusieurs auteurs -->
-	<auteur>Rainer Müller</auteur>
+	<auteur>Rainer Müller Müller</auteur>
 
 	<licence>GNU/GPL</licence>
 
