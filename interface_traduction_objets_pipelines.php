@@ -115,21 +115,91 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$objets = $segments[3] AND
 		$objet = objet_type($objets) AND
 		$table_objet_sql = table_objet_sql($objet) AND
+		$id_table_objet = id_table_objet($objet) AND
 		$tables_spip = lister_tables_spip() AND
 		isset($tables_spip[$table_objet_sql]) AND
 		$trouver_table = charger_fonction('trouver_table', 'base') AND
-		$desc = $trouver_table($objet_exec['table_objet_sql']) AND
+		$desc = $trouver_table($table_objet_sql) AND
 		isset($desc['field']['lang']) AND
 		isset($desc['field']['id_trad']) AND
 		isset($desc['field']['langue_choisie'])
 	) {
 
-		//$contexte['donnees_objet'] = sql_allfetsel('*', $table_objet_sql);
 		$contexte['objets'] = $objets;
 		$contexte['objet'] = $objet;
 		$contexte['table_objet_sql'] = $table_objet_sql;
+		$contexte['id_table_objet'] = $id_table_objet;
+		$contexte['champs'] = $desc['field'];
+		$select = 'select ' . $id_table_objet . ' as id';
+		$from = $table_objet_sql;
+		$where = [];
+		$order = ' order by ' . id_table_objet($objet) . ' desc';
+		$left_join = [];
+		$join = '';
+		if (isset($contexte['id_auteur'])) {
+			if (isset($desc['field']['id_auteur'])) {
+				$where[] = 'id_auteur=' . $contexte['id_auteur'];
+			}
+			else {
+				$from[] = 'spip_auteurs_liens';
+				$where[] = 'objet LIKE ' . sql_quote($objet) . ' AND id_auteur=' . $contexte['id_auteur'];
+			}
+		}
+
+		if (isset($contexte['id_mot'])) {
+			$left_join[] = 'spip_mots_liens';
+			$where[] = 'spip_mots_liens.objet LIKE ' . sql_quote($objet) . ' AND spip_mots_liens.id_mot=' . $contexte['id_mot'];
+		}
+
+		$on = '';
+		if (count($left_join) > 0) {
+			foreach ($left_join AS $table_jointure) {
+				$on = ' ON ' . $table_objet_sql . '.' . $id_table_objet . '=' . $table_jointure . '.id_objet';
+				$join .= ' LEFT JOIN ' . $table_jointure . $on;
+			}
+		}
 
 
+		if (isset($contexte['id_rubrique'])) {
+			$where[] = $table_objet_sql . '.id_rubrique=' . $contexte['id_rubrique'];
+		}
+		else {
+
+
+			$objets = sql_allfetsel(
+				'id_trad,' . $id_table_objet,
+				$from . $join,
+				$where,
+				'',
+				$id_table_objet . ' desc');
+
+			$id_objets = [];
+			foreach ($objets AS $row) {
+				print_r($row);
+				$id_trad = $row['id_trad'];
+				$id_objet = $row[$id_table_objet];
+				if ($id_trad > 0) {
+					$id_objets[$id_trad] = $id_objet;
+				}
+				else {
+					$id_objets[$id_objet] = $id_objet;
+				}
+			}
+print_r($id_objets);
+			$where[] = $table_objet_sql . '.' .$id_table_objet . ' IN (' . implode(',', $id_objets) . ')';
+		}
+
+
+		if (count($where) > 0) {
+			$where = ' where ' . implode(' AND ', $where);
+		}
+		else {
+			$where = '';
+		}
+
+		$contexte['req'] = $select . ' from ' . $from . $join. $where . $order;
+
+		print $contexte['req'];
 		$flux['texte'] = recuperer_fond('prive/objets/liste/objets_compacte', $contexte);
 
 

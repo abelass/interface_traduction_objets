@@ -16,7 +16,8 @@
 		[(#ID)]
 	})]</td>
 	<td>
-	<BOUCLE_trads(DATA) {source tableau, #GET{traductions}}{lang!=#ENV{lang}}>
+
+	<BOUCLE_trads(DATA) {source tableau, #GET{traductions}}{id!=#ID}>
 	#SET{titre,#INFO_TITRE{#ENV{objet},#ID}}
 	#SET{lang,#INFO_LANG{#ENV{objet},#ID}}
 	#SET{id_trad,#INFO_ID_TRAD{#ENV{objet},#ID}}
