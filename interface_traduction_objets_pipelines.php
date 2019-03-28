@@ -130,7 +130,6 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$contexte['table_objet_sql'] = $table_objet_sql;
 
 
-
 		$flux['texte'] = recuperer_fond('prive/objets/liste/objets_compacte', $contexte);
 
 
