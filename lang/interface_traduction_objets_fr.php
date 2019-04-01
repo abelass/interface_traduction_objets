@@ -14,6 +14,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'options' => 'Modifier les options de langues',
 
 	// T
+	'titre_page_configurer_interface_traduction_objets' => 'Configuration',
 	'traductions' => 'Trad',
 
 	// V

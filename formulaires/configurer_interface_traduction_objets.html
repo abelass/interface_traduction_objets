@@ -1,56 +1,82 @@
-<!-- nom=taa -->
-
-<div class="formulaire_spip formulaire_#FORM">
-
-	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+<div class="formulaire_spip formulaire_configurer formulaire_#FORM formulaire_#FORM-#ENV{id,nouveau}">
+<h3 class='titrem'><img src="#CHEMIN_IMAGE{interface_traduction_objets-32.png}" class="cadre-icone" /><:interface_traduction_objets:interface_traduction_objets_titre:>&nbsp;:&nbsp;#ENV{_langue_site}</h3>
 	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV*{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+	[(#ENV{editable})
 
-	<form action="#ENV{action}" method="post"><div>
-		#ACTION_FORMULAIRE{#ENV{action}}
-		<ul>
-			<li class="fieldset">
-				<fieldset><legend><:taa:options:></legend>
-				<ul>
-					#SET{erreurs,#ENV**{erreurs}|table_valeur{affichage_liste_compacte}}
-					<li class="editer_liste_compacte_desactive[ (#GET{erreurs}|oui)erreur]">
-						[<span class='erreur_message'>(#GET{erreurs})</span>]
-						<label for='liste_compacte_desactive'><:taa:affichage_liste_compacte_desactive:></label>
-						<div class="choix">
-							<input type="checkbox" name="liste_compacte_desactive" class="checkbox" value="on" id="liste_compacte" [(#ENV{liste_compacte_desactive}|oui) checked="checked"] />
-							<label for='liste_compacte_desactive_oui'><:ecrire:item_oui:></label>
+	<form method='post' action='#ENV{action}'><div>
+		[(#REM) declarer les hidden qui declencheront le service du formulaire
+		parametre : url d'action ]
+		#ACTION_FORMULAIRE
+		<input type="hidden" name="deactiver_menu&#91;&#93;" value="" />
+		<input type="hidden" name="deactiver_liste_compacte&#91;&#93;" value="" />
+	  <div class="editer-groupe">
+			<div class="fieldset">
+				<fieldset><div class="editer-groupe">
+					#SET{objets,#VAL{rubrique}|objet_info{texte_objets}|_T}
+					#SET{val,spip_rubriques}
+						#SET{name,deactiver_menu}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+						<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">
+							<label>#GET{objets}</label>[
+							<span class='erreur_message'>(#GET{erreurs})</span>
+							]<div class="choix">
+								<input type="checkbox" name="#GET{name}&#91;&#93;" id="#GET{val}#GET{name}_oui" value="#GET{val}"
+								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:info_deactiver_menu{objets=#GET{objets}}:></label>
+							</div>
 						</div>
-					</li>
-					#SET{erreurs,#ENV**{erreurs}|table_valeur{limiter_secteur}}
-					<li class="editer_limiter_secteur[ (#GET{erreurs}|oui)erreur]">
-						[<span class='erreur_message'>(#GET{erreurs})</span>]
-						<label for='limiter_secteur'><:taa:cfg_limiter_secteur:></label>						
-							<BOUCLE_secteurs(RUBRIQUES){tout}{racine}>
-							<div class="choix">	
-							<input type="checkbox" name="limiter_secteur[#COMPTEUR_BOUCLE]" class="checkbox" value="#ID_RUBRIQUE" id="limiter_secteur" [(#ENV{limiter_secteur}|table_valeur{#COMPTEUR_BOUCLE}|oui) checked="checked"] />
-							<label for='limiter_secteur'>#TITRE</label>
-							</div>
-							</BOUCLE_secteurs>
-					</li>					
-					#SET{erreurs,#ENV**{erreurs}|table_valeur{utiliser_langues}}
-					#SET{langues_dispos,#CONFIG{langues_multilingue}|explode{','}}
-					<li class="editer_utiliser_langues[ (#GET{erreurs}|oui)erreur]">
-						[<span class='erreur_message'>(#GET{erreurs})</span>]
-						<label for='utiliser_langues'><:taa:cfg_utiliser_langues:></label>						
-							<BOUCLE_langues(DATA){source table,#GET{langues_dispos}}{par valeur}>
-							<div class="choix">	
-							<input type="checkbox" name="utiliser_langues[[(#COMPTEUR_BOUCLE|moins{1})]]" class="checkbox" value="#VALEUR" id="utiliser_langues" [(#ENV{utiliser_langues,#GET{langues_dispos}}|table_valeur{#COMPTEUR_BOUCLE|moins{1}}|oui) checked="checked"] />
-							<label for='utiliser_langues_#VALEUR'>[(#VALEUR|traduire_nom_langue)]</label>
-							</div>
-							</BOUCLE_langues>
-					</li>					
-				</ul>
+					</div>
 				</fieldset>
-			</li>
-		</ul>
-		
-		<p class="boutons">
-			<input type="submit" name="_cfg_ok" class="submit" value="<:bouton_enregistrer:>" />
-		</p>
-		
+			</div>
+			]
+			<BOUCLE_objets(POUR){tableau #REM|lister_tables_objets_sql}{cle!=spip_rubriques}{cle!=spip_auteurs}{si #ENV{editable}}>[(#CLE|table_supporte_lang|et{#VALEUR{type}|objet_info{editable}})
+			#SET{val,#CLE}
+			<div class="fieldset">
+				<fieldset>
+					#SET{objets,#VALEUR{texte_objets}|_T}
+					<div class="editer-groupe">
+						#SET{name,deactiver_menu}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+						<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">
+							<label>#GET{objets}</label>[
+							<span class='erreur_message'>(#GET{erreurs})</span>
+							]<div class="choix">
+								<input type="checkbox" name="#GET{name}&#91;&#93;" id="#GET{val}#GET{name}_oui" value="#GET{val}"
+								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:info_deactiver_menu{objets=#GET{objets}}:></label>
+							</div>
+						</div>
+						[(#CLE|table_supporte_trad|oui)
+						#SET{name,deactiver_liste_compacte}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+						<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">[
+							<span class='erreur_message'>(#GET{erreurs})</span>
+							]<div class="choix">
+								<input type="checkbox" name="#GET{name}&#91;&#93;" id="#GET{val}#GET{name}_oui" value="#GET{val}"
+								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:info_deactiver_liste_compacte{objets=#GET{objets}}:></label>
+							</div>
+						</div>
+						]
+					</div>
+				</fieldset>
+			</div>]</BOUCLE_objets>
+	[(#ENV{editable})
+		</div>
+		<p class='boutons'><span class='image_loading'>&nbsp;</span><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
+		<div class="editer-groupe">
+			[<div class="fieldset">
+				<fieldset>
+					<legend><:icone_gestion_langues:></legend>
+					<p><:info_multi_langues_choisies:>
+						[(#ENV{_nb_langues_selection}|>{10}|oui)
+						\(<a href="#" onclick="jQuery('#langues_proposees').find('input\[type=checkbox\]').attr('checked',false);return false;"><:lien_tout_decocher:></a>\)
+						]
+					</p>
+					(#ENV**{_langues,''})
+					<p><:info_multi_langues_soulignees:></p>
+				</fieldset>
+			</div>
+			]
+		</div>
+	  [(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+	  <!--extra-->
+	  <p class='boutons'><span class='image_loading'>&nbsp;</span><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
 	</div></form>
+	]
 </div>
