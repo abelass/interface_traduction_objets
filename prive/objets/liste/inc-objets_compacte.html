@@ -17,7 +17,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<BOUCLE_objets(DATA){source sql,#ENV{req}}{pagination #ENV{nb,10}}>#ID
+	<BOUCLE_objets(DATA){source tableau,#ENV{donnees}}{pagination #ENV{nb,10}}>
 		#SET{class, #COMPTEUR_BOUCLE|alterner{row_odd,row_even}}
 		<INCLURE{fond=prive/objets/liste/inc-objets_row,id=#VALEUR{id},class=#GET{class},rang,trads=oui,picto=#GET{picto},env} />
 	</BOUCLE_objets>

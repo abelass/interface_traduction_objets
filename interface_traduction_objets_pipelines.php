@@ -110,7 +110,9 @@ function interface_traduction_objets_recuperer_fond($flux) {
 	}
 
 	// Liste compacte des objets traduits
-	if (strpos($fond, 'prive/objets/liste/') !== false AND
+	if ($exec = _request('exec') AND
+		$exec != 'recherche' AND
+		strpos($fond, 'prive/objets/liste/') !== false AND
 		$segments = explode('/', $fond) AND
 		$objets = $segments[3] AND
 		$objet = objet_type($objets) AND
@@ -130,18 +132,19 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$contexte['table_objet_sql'] = $table_objet_sql;
 		$contexte['id_table_objet'] = $id_table_objet;
 		$contexte['champs'] = $desc['field'];
-		$select = 'select ' . $id_table_objet . ' as id';
+		$champ = [$id_table_objet . ' as id'];
 		$from = $table_objet_sql;
 		$where = [];
 		$order = ' order by ' . id_table_objet($objet) . ' desc';
 		$left_join = [];
 		$join = '';
+
 		if (isset($contexte['id_auteur'])) {
 			if (isset($desc['field']['id_auteur'])) {
 				$where[] = 'id_auteur=' . $contexte['id_auteur'];
 			}
 			else {
-				$from[] = 'spip_auteurs_liens';
+				$left_join[] = 'spip_auteurs_liens';
 				$where[] = 'objet LIKE ' . sql_quote($objet) . ' AND id_auteur=' . $contexte['id_auteur'];
 			}
 		}
@@ -164,8 +167,6 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			$where[] = $table_objet_sql . '.id_rubrique=' . $contexte['id_rubrique'];
 		}
 		else {
-
-
 			$objets = sql_allfetsel(
 				'id_trad,' . $id_table_objet,
 				$from . $join,
@@ -175,7 +176,6 @@ function interface_traduction_objets_recuperer_fond($flux) {
 
 			$id_objets = [];
 			foreach ($objets AS $row) {
-				print_r($row);
 				$id_trad = $row['id_trad'];
 				$id_objet = $row[$id_table_objet];
 				if ($id_trad > 0) {
@@ -185,24 +185,17 @@ function interface_traduction_objets_recuperer_fond($flux) {
 					$id_objets[$id_objet] = $id_objet;
 				}
 			}
-print_r($id_objets);
+
+			if (count($id_objet) == 0) {
+				$id_objets = [-1];
+			}
+
 			$where[] = $table_objet_sql . '.' .$id_table_objet . ' IN (' . implode(',', $id_objets) . ')';
 		}
 
+		$contexte['donnees'] = sql_allfetsel($champ, $from . $join, $where, '', id_table_objet($objet) . ' desc');
 
-		if (count($where) > 0) {
-			$where = ' where ' . implode(' AND ', $where);
-		}
-		else {
-			$where = '';
-		}
-
-		$contexte['req'] = $select . ' from ' . $from . $join. $where . $order;
-
-		print $contexte['req'];
 		$flux['texte'] = recuperer_fond('prive/objets/liste/objets_compacte', $contexte);
-
-
 	}
 
 	return $flux;
