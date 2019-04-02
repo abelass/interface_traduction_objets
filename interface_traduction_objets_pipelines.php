@@ -13,7 +13,15 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
-
+/**
+ * Perermet de compléter ou modifier le résultat de la compilation d’un squelette donné.
+ *
+ * @param array $flux
+ *   Les données du pipeline
+ *
+ * @return array
+ *   Les données du pipeline
+ */
 function interface_traduction_objets_recuperer_fond($flux) {
 	$contexte = $flux['args']['contexte'];
 	$fond = $flux['args']['fond'];
@@ -124,8 +132,8 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		isset($desc['field']['id_trad']) AND
 		isset($desc['field']['langue_choisie']) AND
 		$config = explode(',' ,$GLOBALS['meta']['desactiver_liste_compacte']) AND
-		!in_array($table_objet_sql, $config)
-	) {
+		!in_array($table_objet_sql, $config)) {
+
 		$contexte['objets'] = $objets;
 		$contexte['objet'] = $objet;
 		$contexte['table_objet_sql'] = $table_objet_sql;

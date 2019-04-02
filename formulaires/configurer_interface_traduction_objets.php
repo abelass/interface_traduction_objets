@@ -13,7 +13,6 @@ function formulaires_configurer_interface_traduction_objets_charger_dist() {
 		$valeurs[$m] = explode(',', isset($GLOBALS['meta'][$m]) ? $GLOBALS['meta'][$m] : '');
 	}
 
-
 	return $valeurs;
 }
 
