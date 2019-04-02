@@ -15,98 +15,96 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 
 
 function interface_traduction_objets_recuperer_fond($flux) {
-
-	//Insertion des onglets de langue
 	$contexte = $flux['args']['contexte'];
 	$fond = $flux['args']['fond'];
 
-	if ($objet = _request('exec') AND
+	//Insertion des onglets de langue
+	if (strpos($fond, 'prive/squelettes/contenu/') !== false AND
+		$objet = _request('exec') AND
 		$objet_exec = trouver_objet_exec($objet) AND
+		$table_objet = $objet_exec['table_objet_sql'] AND
 		$trouver_table = charger_fonction('trouver_table', 'base') AND
-		$desc = $trouver_table($objet_exec['table_objet_sql']) AND
+		$desc = $trouver_table($table_objet) AND
 		isset($desc['field']['lang']) AND
 		isset($desc['field']['id_trad']) AND
 		isset($desc['field']['langue_choisie']) AND
 		$id_table_objet = $objet_exec['id_table_objet'] AND
-		$id_objet = $contexte[$id_table_objet]
+		$id_objet = $contexte[$id_table_objet] AND
+		$fond == 'prive/squelettes/contenu/' . $objet AND
+		$config = explode(',' ,$GLOBALS['meta']['desactiver_interface_traduction']) AND
+		!in_array($table_objet, $config)
 	) {
+		$langues_dispos = explode(',', $GLOBALS['meta']['langues_multilingue']);
 
-		// Insertion de la barre traduction.
-		if ($fond == 'prive/squelettes/contenu/' . $objet) {
+		$select = ['id_trad', 'lang', $id_table_objet];
 
-			$langues_dispos = explode(',', $GLOBALS['meta']['langues_multilingue']);
-			$table_objet = $objet_exec['table_objet_sql'];
-
-			$select = ['id_trad', 'lang', $id_table_objet];
-
-			$id_parent_table = '';
-			if (isset($desc['field']['id_rubrique'])) {
-				if ($objet != 'rubrique') {
-					$id_parent_table = 'id_rubrique';
-				}
-				else {
-					$id_parent_table = 'id_parent';
-				}
-				$select[] = $id_parent_table;
-			}
-
-			$donnees_objet = sql_fetsel(
-				$select,
-				$table_objet,
-				$id_table_objet . '=' . $contexte[$id_table_objet]);
-
-			$id_trad_parent = '';
-			if ($id_parent_table) {
-				$rubrique_parent = sql_fetsel(
-					'id_trad, id_rubrique',
-					'spip_rubriques',
-					'id_rubrique=' . $donnees_objet[$id_parent_table]);
-
-					$id_trad_parent = $rubrique_parent['id_rubrique'];
-			}
-
-
-			$lang_objet = $donnees_objet['lang'];
-			$id_trad = $donnees_objet['id_trad'];
-			$langues_traduites = [];
-
-			if ($id_trad > 0) {
-				$trad_new = FALSE;
-				$langues_traduites[$lang_objet] = $id_objet;
-				$traductions = sql_allfetsel(
-					'lang,' . $id_table_objet,
-					$table_objet,
-					'id_trad=' . $id_trad . ' AND ' . $id_table_objet . '!=' . $id_objet);
-
-				foreach ($traductions AS $traduction) {
-					$langues_traduites[$traduction['lang']] = $traduction[$id_table_objet];
-				}
+		$id_parent_table = '';
+		if (isset($desc['field']['id_rubrique'])) {
+			if ($objet != 'rubrique') {
+				$id_parent_table = 'id_rubrique';
 			}
 			else {
-				$trad_new = TRUE;
-				$id_trad = $id_objet;
+				$id_parent_table = 'id_parent';
 			}
-
-			$contexte['objet'] = $objet;
-			$contexte['id_objet'] = $id_objet;
-
-			// Si secteur par langue, on établit l'id_parent.
-			if (test_plugin_actif('secteur_langue')) {
-				$contexte['id_parent'] = isset($donnees_objet['id_rubrique']) ?
-					$donnees_objet['id_rubrique'] :
-					(isset($donnees_objet['id_parent']) ? $donnees_objet['id_parent'] : '');
-			}
-			$contexte['id_table_objet'] = $id_table_objet;
-			$contexte['langues_dispos'] = $langues_dispos;
-			$contexte['lang_objet'] = $lang_objet;
-			$contexte['id_trad'] = $id_trad;
-			$contexte['id_trad_parent'] = $id_trad_parent;
-			$contexte['langues_traduites'] = $langues_traduites;
-
-
-			$barre_langue = recuperer_fond("prive/inclure/barre_traductions_objet", $contexte, array('ajax' => true));
-			$flux['data']['texte'] = str_replace('</h1>', '</h1>' . $barre_langue, $flux['data']['texte']);
+			$select[] = $id_parent_table;
 		}
+
+		$donnees_objet = sql_fetsel(
+			$select,
+			$table_objet,
+			$id_table_objet . '=' . $contexte[$id_table_objet]);
+
+		$id_trad_parent = '';
+		if ($id_parent_table) {
+			$rubrique_parent = sql_fetsel(
+				'id_trad, id_rubrique',
+				'spip_rubriques',
+				'id_rubrique=' . $donnees_objet[$id_parent_table]);
+
+				$id_trad_parent = $rubrique_parent['id_rubrique'];
+		}
+
+
+		$lang_objet = $donnees_objet['lang'];
+		$id_trad = $donnees_objet['id_trad'];
+		$langues_traduites = [];
+
+		if ($id_trad > 0) {
+			$trad_new = FALSE;
+			$langues_traduites[$lang_objet] = $id_objet;
+			$traductions = sql_allfetsel(
+				'lang,' . $id_table_objet,
+				$table_objet,
+				'id_trad=' . $id_trad . ' AND ' . $id_table_objet . '!=' . $id_objet);
+
+			foreach ($traductions AS $traduction) {
+				$langues_traduites[$traduction['lang']] = $traduction[$id_table_objet];
+			}
+		}
+		else {
+			$trad_new = TRUE;
+			$id_trad = $id_objet;
+		}
+
+		$contexte['objet'] = $objet;
+		$contexte['id_objet'] = $id_objet;
+
+		// Si secteur par langue, on établit l'id_parent.
+		if (test_plugin_actif('secteur_langue')) {
+			$contexte['id_parent'] = isset($donnees_objet['id_rubrique']) ?
+				$donnees_objet['id_rubrique'] :
+				(isset($donnees_objet['id_parent']) ? $donnees_objet['id_parent'] : '');
+		}
+		$contexte['id_table_objet'] = $id_table_objet;
+		$contexte['langues_dispos'] = $langues_dispos;
+		$contexte['lang_objet'] = $lang_objet;
+		$contexte['id_trad'] = $id_trad;
+		$contexte['id_trad_parent'] = $id_trad_parent;
+		$contexte['langues_traduites'] = $langues_traduites;
+
+
+		$barre_langue = recuperer_fond("prive/inclure/barre_traductions_objet", $contexte, array('ajax' => true));
+		$flux['data']['texte'] = str_replace('</h1>', '</h1>' . $barre_langue, $flux['data']['texte']);
 	}
 
 	// Liste compacte des objets traduits
@@ -124,9 +122,10 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$desc = $trouver_table($table_objet_sql) AND
 		isset($desc['field']['lang']) AND
 		isset($desc['field']['id_trad']) AND
-		isset($desc['field']['langue_choisie'])
+		isset($desc['field']['langue_choisie']) AND
+		$config = explode(',' ,$GLOBALS['meta']['desactiver_liste_compacte']) AND
+		!in_array($table_objet_sql, $config)
 	) {
-
 		$contexte['objets'] = $objets;
 		$contexte['objet'] = $objet;
 		$contexte['table_objet_sql'] = $table_objet_sql;

@@ -4,24 +4,34 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
 
-function formulaires_configurer_multilinguisme_charger_dist() {
-	include_spip('prive/formulaires/configurer_multilinguisme');
+include_spip('prive/formulaires/configurer_multilinguisme');
+
+function formulaires_configurer_interface_traduction_objets_charger_dist() {
 	$valeurs = array();
-	$valeurs['multi_secteurs'] = $GLOBALS['meta']['multi_secteurs'];
-	foreach (array('multi_objets', 'gerer_trad_objets') as $m) {
+
+	foreach (array('desactiver_interface_traduction', 'desactiver_liste_compacte') as $m) {
 		$valeurs[$m] = explode(',', isset($GLOBALS['meta'][$m]) ? $GLOBALS['meta'][$m] : '');
 	}
 
-	if (count($valeurs['multi_objets'])
-		or count(explode(',', $GLOBALS['meta']['langues_utilisees'])) > 1
-	) {
-		$selection = (is_null(_request('multi_objets')) ?
-			explode(',', $GLOBALS['meta']['langues_multilingue']) : _request('langues_auth'));
-		$valeurs['_langues'] = saisie_langues_utiles('langues_auth', $selection ? $selection : array());
-		$valeurs['_nb_langues_selection'] = count($selection);
-	}
 
 	return $valeurs;
 }
 
 
+function formulaires_configurer_interface_traduction_objets_traiter_dist() {
+	$res = array('editable' => true);
+	// un checkbox seul de name X non coche n'est pas poste.
+	// on verifie le champ X_check qui indique que la checkbox etait presente dans le formulaire.
+
+	foreach (array('desactiver_interface_traduction', 'desactiver_liste_compacte') as $m) {
+		if (!is_null($v = _request($m))) {
+			// join et enlever la valeur vide ''
+			ecrire_meta($m, implode(',', array_diff($v, array(''))));
+		}
+	}
+
+
+	$res['message_ok'] = _T('config_info_enregistree');
+
+	return $res;
+}

@@ -8,20 +8,20 @@
 		[(#REM) declarer les hidden qui declencheront le service du formulaire
 		parametre : url d'action ]
 		#ACTION_FORMULAIRE
-		<input type="hidden" name="deactiver_menu&#91;&#93;" value="" />
-		<input type="hidden" name="deactiver_liste_compacte&#91;&#93;" value="" />
+		<input type="hidden" name="desactiver_interface_traduction&#91;&#93;" value="" />
+		<input type="hidden" name="desactiver_liste_compacte&#91;&#93;" value="" />
 	  <div class="editer-groupe">
 			<div class="fieldset">
 				<fieldset><div class="editer-groupe">
 					#SET{objets,#VAL{rubrique}|objet_info{texte_objets}|_T}
 					#SET{val,spip_rubriques}
-						#SET{name,deactiver_menu}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+						#SET{name,desactiver_interface_traduction}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
 						<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">
 							<label>#GET{objets}</label>[
 							<span class='erreur_message'>(#GET{erreurs})</span>
 							]<div class="choix">
 								<input type="checkbox" name="#GET{name}&#91;&#93;" id="#GET{val}#GET{name}_oui" value="#GET{val}"
-								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:info_deactiver_menu{objets=#GET{objets}}:></label>
+								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:interface_traduction_objets:info_desactiver_interface_traduction:></label>
 							</div>
 						</div>
 					</div>
@@ -34,22 +34,22 @@
 				<fieldset>
 					#SET{objets,#VALEUR{texte_objets}|_T}
 					<div class="editer-groupe">
-						#SET{name,deactiver_menu}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+						#SET{name,desactiver_interface_traduction}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
 						<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">
 							<label>#GET{objets}</label>[
 							<span class='erreur_message'>(#GET{erreurs})</span>
 							]<div class="choix">
 								<input type="checkbox" name="#GET{name}&#91;&#93;" id="#GET{val}#GET{name}_oui" value="#GET{val}"
-								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:info_deactiver_menu{objets=#GET{objets}}:></label>
+								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:interface_traduction_objets:info_desactiver_interface_traduction:></label>
 							</div>
 						</div>
 						[(#CLE|table_supporte_trad|oui)
-						#SET{name,deactiver_liste_compacte}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
+						#SET{name,desactiver_liste_compacte}#SET{erreurs,#ENV**{erreurs}|table_valeur{#GET{name}}}
 						<div class="editer editer_[(#GET{name})][ (#GET{obli})][ (#GET{erreurs}|oui)erreur]">[
 							<span class='erreur_message'>(#GET{erreurs})</span>
 							]<div class="choix">
 								<input type="checkbox" name="#GET{name}&#91;&#93;" id="#GET{val}#GET{name}_oui" value="#GET{val}"
-								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:info_deactiver_liste_compacte{objets=#GET{objets}}:></label>
+								[(#GET{val}|in_any{#ENV{#GET{name}}}|oui)checked="checked"] /><label for="#GET{val}#GET{name}_oui"><:interface_traduction_objets:info_desactiver_liste_compacte:></label>
 							</div>
 						</div>
 						]
@@ -58,24 +58,6 @@
 			</div>]</BOUCLE_objets>
 	[(#ENV{editable})
 		</div>
-		<p class='boutons'><span class='image_loading'>&nbsp;</span><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
-		<div class="editer-groupe">
-			[<div class="fieldset">
-				<fieldset>
-					<legend><:icone_gestion_langues:></legend>
-					<p><:info_multi_langues_choisies:>
-						[(#ENV{_nb_langues_selection}|>{10}|oui)
-						\(<a href="#" onclick="jQuery('#langues_proposees').find('input\[type=checkbox\]').attr('checked',false);return false;"><:lien_tout_decocher:></a>\)
-						]
-					</p>
-					(#ENV**{_langues,''})
-					<p><:info_multi_langues_soulignees:></p>
-				</fieldset>
-			</div>
-			]
-		</div>
-	  [(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
-	  <!--extra-->
 	  <p class='boutons'><span class='image_loading'>&nbsp;</span><input type='submit' class='submit' value='<:bouton_enregistrer:>' /></p>
 	</div></form>
 	]
