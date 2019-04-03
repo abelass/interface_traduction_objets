@@ -139,12 +139,25 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$contexte['table_objet_sql'] = $table_objet_sql;
 		$contexte['id_table_objet'] = $id_table_objet;
 		$contexte['champs'] = $desc['field'];
+
+
 		$champ = [$id_table_objet . ' as id'];
 		$from = $table_objet_sql;
 		$where = [];
 		$order = ' order by ' . id_table_objet($objet) . ' desc';
 		$left_join = [];
 		$join = '';
+
+		$champ_date = '';
+		if (isset($desc['date']) and $desc['date']) {
+			$champ_date = $desc['date'];
+		} elseif (isset($desc['field']['date'])) {
+			$champ_date = 'date';
+		}
+		if ($champ_date) {
+			$contexte['champ_date'] = $champ_date;
+			$champ[] = $champ_date . ' as date';
+		}
 
 		if (isset($contexte['id_auteur'])) {
 			if (isset($desc['field']['id_auteur'])) {
