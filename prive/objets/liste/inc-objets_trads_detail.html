@@ -13,6 +13,9 @@
 		title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#RANG). ][(#GET{titre}|sinon{<:info_sans_titre:>})]</a>
 	</td>
 	[(#ENV{champ_date}|oui)
+		<td class='date'><INCLURE{fond=prive/objets/liste/inc-objets_auteurs,id,objet} /></td>
+	]
+	[(#ENV{champ_date}|oui)
 	<td class='date'>[(#DATE|affdate_court)]</td>
 	]
 	<td class='id'>[(#AUTORISER{modifier,#ENV{objet},#VALEUR{id}}|?{

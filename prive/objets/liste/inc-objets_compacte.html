@@ -11,6 +11,9 @@
 			]
 			<th class='picto' scope='col'></th>
 			<th class='titre principale' scope='col'><:info_titre:></th>
+			[(#ENV{champ_auteur}|oui)
+			<th class='auteur' scope='col'><:auteur:></th>
+			]
 			[(#ENV{champ_date}|oui)
 			<th class='date' scope='col'><:date:></th>
 			]
