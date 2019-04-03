@@ -11,6 +11,10 @@
 		[hreflang="(#ENV{lang}|=={#GET{lang}}|non|?{#GET{lang}})"]
 		title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#ENV{rang}). ][(#GET{titre}|sinon{<:info_sans_titre:>})]</a>
 	</td>
+	[(#ENV{champs}|table_valeur{id_auteur}|oui)
+	#SET{id_auteur,#INFO_ID_AUTEUR{#ENV{objet},#ID}}
+	<td class='date'>#INFO_NOM{auteur,#GET{id_auteur}}</td>
+	]
 	[(#ENV{champ_date}|oui)
 	<td class='date'>[(#DATE|affdate_court)]</td>
 	]
