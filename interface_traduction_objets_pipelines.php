@@ -204,7 +204,8 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		}
 
 
-		// Sinon on prend les objets non traduits et ceux de références si traduit.
+		// Si pas dans une rubrique ou secteur_langue pas activé,
+		// on prend les objets non traduits et ceux de références si traduit.
 		if (!isset($contexte['id_rubrique']) OR !test_plugin_actif('secteur_langue')){
 			$objets = sql_allfetsel(
 				'id_trad,' . $id_table_objet,
@@ -217,18 +218,16 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			foreach ($objets AS $row) {
 				$id_trad = $row['id_trad'];
 				$id_objet = $row[$id_table_objet];
-				if ($id_trad > 0) {
+				if ($id_trad > 0 AND $id_trad == $id_objet) {
 					$id_objets[$id_trad] = $id_objet;
 				}
-				else {
+				elseif ($id_trad == 0) {
 					$id_objets[$id_objet] = $id_objet;
 				}
 			}
-
-			if (count($id_objet) == 0) {
+			if (count($id_objets) == 0) {
 				$id_objets = [-1];
 			}
-
 			$where[] = $table_objet_sql . '.' .$id_table_objet . ' IN (' . implode(',', $id_objets) . ')';
 		}
 
@@ -262,6 +261,19 @@ function interface_traduction_objets_formulaire_charger($flux) {
 		}
 		if (isset($flux['data']['lang_dest'])) {
 			$flux['data']['_hidden'] .= '<input type="hidden" name="lang_dest" value="' . $flux['data']['lang_dest'] . '"/>';
+		}
+	}
+
+	if ($form == 'traduire') {
+		// Rendre le changement de langue possible si pas dans rubrique
+		// ou si dans rubrique sans que secteur_langue soit activé
+		if (!isset($flux['data']['id_rubrique']) OR
+			(
+				isset($flux['data']['id_rubrique']) AND !test_plugin_actif('secteur_langue')
+			)
+		) {
+			$flux['data']['editable'] = TRUE;
+			$flux['data']['_langue'] = $flux['data']['langue'];
 		}
 	}
 

@@ -18,7 +18,7 @@
 				[(#ENV{langue}|?{[(#ENV{langue}|traduire_nom_langue)],[((#ENV{langue_parent}|traduire_nom_langue))]})]
 				[(#ENV{langue_choisie}|=={oui}|non)([(#ENV{_objet}|objet_T{info_multi_herit})])]
 				</span>
-				[(#ENV{_langue}|ou{#ENV{_traduire}}|oui)
+
 					<span class="toggle_box_link"[(#ENV{_saisie_en_cours}|oui)style="display:none;"]>&#91;<a href="#"
 						onclick="var f=jQuery(this).parents('form').eq(0);
 							f.find('.editer-groupe .input').removeClass('none-js').show('fast');
@@ -29,7 +29,7 @@
 					[(#ENV{editable}|oui|et{#ENV{_id_parent}|non})
 					[<span class="input[(#ENV{_saisie_en_cours}|non)none-js]">
 					<select name="changer_lang" id="changer_lang">(#INCLURE{fond=formulaires/inc-options-langues,name=changer_lang,default=#ENV**{_langue},herit=#ENV**{langue_parent}})</select>
-					</span>]]]
+					</span>]]
 			</div>
 
 			[(#ENV{_traduire}|oui)
@@ -38,7 +38,7 @@
 					<INCLURE{fond=#ENV**{_vue_traductions},id_trad=#ENV{_lister_id_trad},titre=#ENV{_objet}|objet_T{info_traductions},objet=#ENV{_objet},env,ajax} />
 					[(#ENV{editable}|ou{#ENV{_traduisible}})
 					<span class="input[(#ENV{_saisie_en_cours}|non)none-js]">
-						<input type="submit" class="submit supprimer_trad" name="supprimer_trad" value="[(#ENV{_objet}|objet_T{trad_delier}|attribut_html)]" />#ENV{_objet}
+						<input type="submit" class="submit supprimer_trad" name="supprimer_trad" value="[(#ENV{_objet}|objet_T{trad_delier}|attribut_html)]" />
 					</span>
 					]
 				</div>
