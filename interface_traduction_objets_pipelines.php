@@ -151,8 +151,8 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		* Affichage de champs supplémentaires
 		*/
 
+		// Les auteurs liés s'il y en a en moins un.
 		$auteur = sql_getfetsel('id_auteur', 'spip_auteurs_liens', 'objet LIKE' . sql_quote($objet));
-
 		if ($auteur) {
 			$contexte['champ_auteur'] = TRUE;
 		}
@@ -202,8 +202,10 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		if (isset($contexte['id_rubrique'])) {
 			$where[] = $table_objet_sql . '.id_rubrique=' . $contexte['id_rubrique'];
 		}
+
+
 		// Sinon on prend les objets non traduits et ceux de références si traduit.
-		else {
+		if (!isset($contexte['id_rubrique']) OR !test_plugin_actif('secteur_langue')){
 			$objets = sql_allfetsel(
 				'id_trad,' . $id_table_objet,
 				$from . $join,
