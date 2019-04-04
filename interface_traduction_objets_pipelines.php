@@ -26,6 +26,11 @@ function interface_traduction_objets_recuperer_fond($flux) {
 	$contexte = $flux['args']['contexte'];
 	$fond = $flux['args']['fond'];
 
+	// Enlever le lien traduction dans le formulaire traduire
+	if ($fond == 'formulaires/traduire') {
+		$flux['data']['texte'] = preg_replace('/(<div\sclass="new_trad)([^<]|<.+>.*<\/.+>)+(<\/div>)/i', '', $flux['data']['texte']);
+	}
+
 	//Insertion des onglets de langue
 	if (strpos($fond, 'prive/squelettes/contenu/') !== false AND
 		$objet = _request('exec') AND
