@@ -251,7 +251,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			// On passe le résultat de la requête dans le contexte.
 			$contexte['donnees'] = sql_allfetsel($champ, $from . $join, $where, '', id_table_objet($objet) . ' desc');
 
-			$liste_compacte = recuperer_fond('prive/objets/liste/objets_compacte', $contexte);
+			$liste_compacte = recuperer_fond('prive/objets/liste/objets_compacte', $contexte, ['ajax'=>'oui']);
 		}
 		$flux['texte'] = $liste_compacte;
 	}
