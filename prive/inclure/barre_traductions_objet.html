@@ -17,7 +17,7 @@
 				[(#ENV{id_parent}|oui)
 					#SET{parent,''}
 					[(#ENV{objet}|=={rubrique}|oui)#SET{parent,1}]
-					[(#SET{donnees_trad,#VALEUR|rubrique_destination_traduction{#ENV{id_parent},#GET{parent}}})]
+					[(#SET{donnees_trad,#VALEUR||appliquer_filtre{rubrique_destination_traduction, #ENV{id_parent},#GET{parent}}})]
 					#SET{id_parent_trad,#GET{donnees_trad}|table_valeur{id_parent_trad}}
 					[(#SET{creer_racine, #GET{donnees_trad}|table_valeur{creer_racine}})]
 
