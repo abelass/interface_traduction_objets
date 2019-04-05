@@ -155,6 +155,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			$contexte['table_objet_sql'] = $table_objet_sql;
 			$contexte['id_table_objet'] = $id_table_objet;
 			$contexte['champs'] = $desc['field'];
+			$contexte['voir'] = _request('voir');
 
 			$champ = [$id_table_objet . ' as id'];
 			$from = $table_objet_sql;
