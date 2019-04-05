@@ -48,7 +48,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		!in_array($table_objet, $config)
 	) {
 		$langues_dispos = explode(',', $GLOBALS['meta']['langues_multilingue']);
-
+		$secteur_par_langue = test_plugin_actif('secteur_langue')
 		$select = ['id_trad', 'lang', $id_table_objet];
 
 		$id_parent_table = '';
@@ -66,17 +66,6 @@ function interface_traduction_objets_recuperer_fond($flux) {
 			$select,
 			$table_objet,
 			$id_table_objet . '=' . $contexte[$id_table_objet]);
-
-		$id_trad_parent = '';
-		if ($id_parent_table) {
-			$rubrique_parent = sql_fetsel(
-				'id_trad, id_rubrique',
-				'spip_rubriques',
-				'id_rubrique=' . $donnees_objet[$id_parent_table]);
-
-				$id_trad_parent = $rubrique_parent['id_rubrique'];
-		}
-
 
 		$lang_objet = $donnees_objet['lang'];
 		$id_trad = $donnees_objet['id_trad'];
@@ -112,7 +101,6 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		$contexte['langues_dispos'] = $langues_dispos;
 		$contexte['lang_objet'] = $lang_objet;
 		$contexte['id_trad'] = $id_trad;
-		$contexte['id_trad_parent'] = $id_trad_parent;
 		$contexte['langues_traduites'] = $langues_traduites;
 
 
