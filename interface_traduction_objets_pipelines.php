@@ -146,7 +146,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 
 		// S'il existe un squelette compacte pour l'objet on le prend.
 		if (find_in_path('prive/objets/liste/compacte/' . $objets . '.html')) {
-			$liste_compacte = recuperer_fond('prive/objets/liste/compacte/' . $objets, $contexte);
+			$liste_compacte = recuperer_fond('prive/objets/liste/compacte/' . $objets, $contexte, ['ajax'=>'oui']);
 		}
 		// Sinon on prend le générique.
 		else {
