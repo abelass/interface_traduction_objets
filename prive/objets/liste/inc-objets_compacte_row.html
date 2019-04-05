@@ -12,7 +12,7 @@
 		title="<:info_numero_abbreviation|attribut_html:> #VALEUR{id}">[(#ENV{rang}). ][(#GET{titre}|sinon{<:info_sans_titre:>})]</a>
 	</td>
 	[(#ENV{champ_auteur}|oui)
-		<td class='auteur'><INCLURE{fond=prive/objets/liste/inc-objets_auteurs,id,objet} /></td>
+		<td class='auteur'><INCLURE{fond=prive/objets/liste/inc-objets_compacte_auteurs,id,objet} /></td>
 	]
 	[(#ENV{champ_date}|oui)
 	<td class='date'>[(#DATE|affdate_court)]</td>
@@ -50,5 +50,5 @@
 </tr>
 
 [(#ENV{voir}|et{#ENV{voir}|=={#GET{id_trad}}}|oui)
-	<INCLURE{fond=prive/objets/liste/inc-objets_trads_detail,id,id_trad=#GET{id_trad},env}/>
+	<INCLURE{fond=prive/objets/liste/inc-objets_compacte_trads_detail,id,id_trad=#GET{id_trad},env}/>
 ]
