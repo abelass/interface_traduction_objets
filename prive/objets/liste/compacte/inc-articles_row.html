@@ -32,7 +32,7 @@
 </BOUCLE_art>
 </tr>
 [(#ENV{voir}|=={#GET{voir}}|oui)
-	<INCLURE{fond=prive/objets/liste/compacte/inc-articles_trads_detail}{id_trad=#GET{id_trad}}{id_article=#GET{id_article}}{env}/>
+	<INCLURE{fond=prive/objets/liste/compacte/inc-articles_trads_row}{id_trad=#GET{id_trad}}{id_article=#GET{id_article}}{env}/>
 	]
 
 
