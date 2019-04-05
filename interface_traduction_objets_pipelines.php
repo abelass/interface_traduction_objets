@@ -278,22 +278,18 @@ function interface_traduction_objets_formulaire_charger($flux) {
 		if (!$flux['data']['lang_dest'] = _request('lang_dest') AND $id_parent = _request('id_parent')) {
 			$flux['data']['lang_dest'] = sql_getfetsel('lang', 'spip_rubriques', 'id_rubrique=' . $id_parent);
 		}
+
+			// pour afficher la liste des trad sur la base de l'id_trad en base
 		if (isset($flux['data']['lang_dest'])) {
 			$flux['data']['_hidden'] .= '<input type="hidden" name="lang_dest" value="' . $flux['data']['lang_dest'] . '"/>';
 		}
 	}
 
 	if ($form == 'traduire') {
-		// Rendre le changement de langue possible si pas dans rubrique
-		// ou si dans rubrique sans que secteur_langue soit activé
-		if (!isset($flux['data']['id_rubrique']) OR
-			(
-				isset($flux['data']['id_rubrique']) AND !test_plugin_actif('secteur_langue')
-			)
-		) {
-			$flux['data']['editable'] = TRUE;
-			$flux['data']['_langue'] = $flux['data']['langue'];
-		}
+		// Rendre le changement de la langue possible aunsi que le changement de la référence des traductions
+
+		$flux['data']['_langue'] = $flux['data']['langue'];
+		$flux['data']['editable'] = TRUE;
 	}
 
 
