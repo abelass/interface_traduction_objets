@@ -5,7 +5,7 @@
 	etat="test"
 	compatibilite="[3.0.0;3.2.*]"
 	logo="prive/themes/spip/images/interface_traduction_objets-64.png"
-	documentation="https://github.com/abelass/interface_traduction_objets"
+	documentation="https://contrib.spip.net/Interface-de-traduction-pour-objets"
 >
 
 	<nom>Interface de traduction pour objets</nom>
