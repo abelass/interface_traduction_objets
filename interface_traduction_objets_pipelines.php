@@ -48,7 +48,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		!in_array($table_objet, $config)
 	) {
 		$langues_dispos = explode(',', $GLOBALS['meta']['langues_multilingue']);
-		$secteur_par_langue = test_plugin_actif('secteur_langue')
+		$secteur_par_langue = test_plugin_actif('secteur_langue');
 		$select = ['id_trad', 'lang', $id_table_objet];
 
 		$id_parent_table = '';
