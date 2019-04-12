@@ -186,7 +186,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 					$where[] = 'objet LIKE ' . sql_quote($objet) . ' AND id_auteur=' . $contexte['id_auteur'];
 				}
 			}
-			// Autres liaison
+			// Autres liaisons
 			elseif ($objet_associable = objet_associable($exec)) {
 				$table_liens = $objet_associable[1];
 				$id_table_liens = $objet_associable[0];
