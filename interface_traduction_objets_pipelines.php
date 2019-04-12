@@ -172,6 +172,12 @@ function interface_traduction_objets_recuperer_fond($flux) {
 				$champ[] = $champ_date . ' as date';
 			}
 
+			// Existence d'un champ rang.
+			if (isset($desc['rang'])) {
+				$champ[] = $desc['date'];
+			}
+
+
 			/*
 			* Des requêtes conditionnelles dépendant du contexte.
 			*/
