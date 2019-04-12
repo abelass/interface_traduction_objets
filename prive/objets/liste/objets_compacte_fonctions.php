@@ -41,7 +41,6 @@ function liste_compacte_requete_objet($contexte) {
 	/*
 	* Des requêtes conditionnelles dépendant du contexte.
 	*/
-
 	// Page auteur.
 	if (isset($contexte['id_auteur'])) {
 		if (isset($desc['field']['id_auteur'])) {
@@ -52,6 +51,7 @@ function liste_compacte_requete_objet($contexte) {
 			$where[] = 'objet LIKE ' . sql_quote($objet) . ' AND id_auteur=' . $contexte['id_auteur'];
 		}
 	}
+
 	// Autres liaisons
 	elseif ($objet_associable = objet_associable($exec)) {
 		$table_liens = $objet_associable[1];
@@ -104,6 +104,4 @@ function liste_compacte_requete_objet($contexte) {
 
 	// On passe le résultat de la requête dans le contexte.
 	return sql_allfetsel($champ, $from . $join, $where, '', id_table_objet($objet) . ' desc');
-
-
 }
