@@ -1,6 +1,7 @@
 [(#PLUGIN{rang}|et{#ENV{objet}|appliquer_filtre{rang_objet_dans_config}|et{#ENV{exec}|!={accueil}}}|?{
 	#SET{activer_rang,oui}
 	#SET{tri,rang}
+	#SET{par,rang}
 	[(#SET{defaut_tri,#ARRAY{
 		rang,1,
 		date,#ENV{date_sens,-1},
@@ -8,13 +9,14 @@
 		id,
 	}})]
 ,
-	#SET{tri,date}
+	#SET{tri,id}
+	#SET{par,id}
 	[(#SET{defaut_tri,#ARRAY{
 		date,#ENV{date_sens,-1},
 		num titre,1
 	}})]
 })]
-
+#SET{donnees,#ENV**|liste_compacte_requete_objet}
 #SET{picto,#ENV{objet}|objet_icone{16}}
 <B_objets>
 #ANCRE_PAGINATION
@@ -41,7 +43,7 @@
 		</tr>
 	</thead>
 	<tbody>
-	<BOUCLE_objets(DATA){source tableau,#ENV{donnees}}{pagination #ENV{nb,10}}{tri #GET{tri},#GET{defaut_tri}}{par id}>
+	<BOUCLE_objets(DATA){source tableau, #GET{donnees}}{pagination #ENV{nb,10}}{tri #GET{tri},#GET{defaut_tri}}{par #GET{par}}>
 		#SET{class, #COMPTEUR_BOUCLE|alterner{row_odd,row_even}}
 		<INCLURE{fond=prive/objets/liste/inc-objets_compacte_row,
 			id,date,
@@ -54,6 +56,10 @@
 	[(#REM|changer_typo)]
 	</tbody>
 </table>
+[(#GET{activer_rang}|oui)
+	<INCLURE{fond=prive/squelettes/inclure/rang,objet=#ENV{objets},id_parent=#ID_RUBRIQUE,suffixe_pagination=#ENV{objet}}/>
+
+]
 [<p class='pagination'>(#PAGINATION{prive})</p>]
 </div>
 </B_objets>[
