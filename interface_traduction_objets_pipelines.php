@@ -32,19 +32,19 @@ function interface_traduction_objets_recuperer_fond($flux) {
 	}
 
 	//Insertion des onglets de langue
-	if (strpos($fond, 'prive/squelettes/contenu/') !== false AND
-		$objet = _request('exec') AND
-		$objet_exec = trouver_objet_exec($objet) AND
-		$table_objet = $objet_exec['table_objet_sql'] AND
-		$trouver_table = charger_fonction('trouver_table', 'base') AND
-		$desc = $trouver_table($table_objet) AND
-		isset($desc['field']['lang']) AND
-		isset($desc['field']['id_trad']) AND
-		isset($desc['field']['langue_choisie']) AND
-		$id_table_objet = $objet_exec['id_table_objet'] AND
-		$id_objet = $contexte[$id_table_objet] AND
-		$fond == 'prive/squelettes/contenu/' . $objet AND
-		$config = explode(',' ,$GLOBALS['meta']['desactiver_interface_traduction']) AND
+	if (strpos($fond, 'prive/squelettes/contenu/') !== false and
+		$objet = _request('exec') and
+		$objet_exec = trouver_objet_exec($objet) and
+		$table_objet = $objet_exec['table_objet_sql'] and
+		$trouver_table = charger_fonction('trouver_table', 'base') and
+		$desc = $trouver_table($table_objet) and
+		isset($desc['field']['lang']) and
+		isset($desc['field']['id_trad']) and
+		isset($desc['field']['langue_choisie']) and
+		$id_table_objet = $objet_exec['id_table_objet'] and
+		$id_objet = $contexte[$id_table_objet] and
+		$fond == 'prive/squelettes/contenu/' . $objet and
+		$config = explode(',' ,$GLOBALS['meta']['desactiver_interface_traduction']) and
 		!in_array($table_objet, $config)
 	) {
 		$langues_dispos = explode(',', $GLOBALS['meta']['langues_multilingue']);
@@ -106,27 +106,27 @@ function interface_traduction_objets_recuperer_fond($flux) {
 	}
 
 	// Liste compacte des objets traduits
-	if ($exec = _request('exec') AND
-		$exec != 'recherche' AND
-		strpos($fond, 'prive/objets/liste/') !== false AND
-		$segments = explode('/', $fond) AND
-		$objets = $segments[3] AND
-		$objet = objet_type($objets) AND
-		$exec != $objet AND
-		$table_objet_sql = table_objet_sql($objet) AND
-		$id_table_objet = id_table_objet($objet) AND
-		$tables_spip = lister_tables_spip() AND
-		isset($tables_spip[$table_objet_sql]) AND
-		$trouver_table = charger_fonction('trouver_table', 'base') AND
-		$desc = $trouver_table($table_objet_sql) AND
-		isset($desc['field']['lang']) AND
-		isset($desc['field']['id_trad']) AND
-		isset($desc['field']['langue_choisie']) AND
-		$config = explode(',' ,$GLOBALS['meta']['desactiver_liste_compacte']) AND
+	if ($exec = _request('exec') and
+		$exec != 'recherche' and
+		strpos($fond, 'prive/objets/liste/') !== false and
+		$segments = explode('/', $fond) and
+		$objets = $segments[3] and
+		$objet = objet_type($objets) and
+		$exec != $objet and
+		$table_objet_sql = table_objet_sql($objet) and
+		$id_table_objet = id_table_objet($objet) and
+		$tables_spip = lister_tables_spip() and
+		isset($tables_spip[$table_objet_sql]) and
+		$trouver_table = charger_fonction('trouver_table', 'base') and
+		$desc = $trouver_table($table_objet_sql) and
+		isset($desc['field']['lang']) and
+		isset($desc['field']['id_trad']) and
+		isset($desc['field']['langue_choisie']) and
+		$config = explode(',' ,$GLOBALS['meta']['desactiver_liste_compacte']) and
 		!in_array($table_objet_sql, $config)) {
 
 		// Détermine si la liste est de type sections.
-		if (test_plugin_actif('secteur_langue') AND isset($contexte['id_rubrique'])) {
+		if (test_plugin_actif('secteur_langue') and isset($contexte['id_rubrique'])) {
 			$contexte['type'] = 'sections';
 		}
 
@@ -223,7 +223,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 				foreach ($objets AS $row) {
 					$id_trad = $row['id_trad'];
 					$id_objet = $row[$id_table_objet];
-					if ($id_trad > 0 AND $id_trad == $id_objet) {
+					if ($id_trad > 0 and $id_trad == $id_objet) {
 						$id_objets[$id_trad] = $id_objet;
 					}
 					elseif ($id_trad == 0) {
@@ -259,10 +259,10 @@ function interface_traduction_objets_formulaire_charger($flux) {
 	$form = $flux['args']['form'];
 	$segments = explode('_', $form);
 
-	if ($segments[0] == 'editer' AND
+	if ($segments[0] == 'editer' and
 		_request('new') == 'oui') {
 
-		if (!$flux['data']['lang_dest'] = _request('lang_dest') AND $id_parent = _request('id_parent')) {
+		if (!$flux['data']['lang_dest'] = _request('lang_dest') and $id_parent = _request('id_parent')) {
 			$flux['data']['lang_dest'] = sql_getfetsel('lang', 'spip_rubriques', 'id_rubrique=' . $id_parent);
 		}
 
