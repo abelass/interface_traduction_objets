@@ -136,6 +136,7 @@ function interface_traduction_objets_recuperer_fond($flux) {
 		}
 		// Sinon on prend le générique.
 		else {
+			include_spip('action/editer_liens');
 			$contexte['objets'] = $objets;
 			$contexte['objet'] = $objet;
 			$contexte['table_objet_sql'] = $table_objet_sql;
@@ -185,11 +186,13 @@ function interface_traduction_objets_recuperer_fond($flux) {
 					$where[] = 'objet LIKE ' . sql_quote($objet) . ' AND id_auteur=' . $contexte['id_auteur'];
 				}
 			}
+			// Autres liaison
+			elseif ($objet_associable = objet_associable($exec)) {
+				$table_liens = $objet_associable[1];
+				$id_table_liens = $objet_associable[0];
 
-			// Page mot clé.
-			if (isset($contexte['id_mot'])) {
-				$left_join[] = 'spip_mots_liens';
-				$where[] = 'spip_mots_liens.objet LIKE ' . sql_quote($objet) . ' AND spip_mots_liens.id_mot=' . $contexte['id_mot'];
+				$left_join[] = $table_liens;
+				$where[] = $table_liens . '.objet LIKE ' . sql_quote($objet) . ' AND ' . $table_liens . '.' . $id_table_liens . '=' . $contexte[$id_table_liens];
 			}
 
 			$on = '';
