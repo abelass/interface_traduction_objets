@@ -28,6 +28,7 @@ function liste_compacte_requete_objet($contexte) {
 	$where = [];
 	$left_join = [];
 	$join = '';
+
 	// Existence d'un champ date.
 	if (isset($contexte['champ_date'])) {
 		$champ[] = $contexte['champ_date'] . ' as date';
